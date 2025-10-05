@@ -1,10 +1,7 @@
-extension BSON
-{
+extension BSON {
     /// A BSON metatype. The raw value of this enumeration is the type code of the associated
     /// case in BSON’s ABI.
-    @frozen public
-    enum AnyType:UInt8, Equatable, Hashable, Sendable
-    {
+    @frozen public enum AnyType: UInt8, Equatable, Hashable, Sendable {
         case double             = 0x01
         case string             = 0x02
         case document           = 0x03
@@ -29,19 +26,13 @@ extension BSON
         case max                = 0x7F
     }
 }
-extension BSON.AnyType
-{
+extension BSON.AnyType {
     /// Calls ``init(rawValue:)``, but throws a ``TypeError`` instead of returning
     /// nil.
-    @inlinable public
-    init(code:UInt8) throws
-    {
-        if let variant:Self = .init(rawValue: code)
-        {
+    @inlinable public init(code: UInt8) throws {
+        if let variant: Self = .init(rawValue: code) {
             self = variant
-        }
-        else
-        {
+        } else {
             throw BSON.TypeError.init(invalid: code)
         }
     }
@@ -49,11 +40,8 @@ extension BSON.AnyType
     /// deprecated type codes that have an isomorphic modern equivalent, but it will
     /// never change the ``pointer`` and ``javascriptScope`` types, because they do not
     /// have modern equivalents.
-    @inlinable public
-    init?(rawValue:UInt8)
-    {
-        switch rawValue
-        {
+    @inlinable public init?(rawValue: UInt8) {
+        switch rawValue {
         case 0x01:  self = .double
         case 0x02:  self = .string
         case 0x03:  self = .document
@@ -79,8 +67,6 @@ extension BSON.AnyType
         }
     }
 }
-extension BSON.AnyType:Comparable
-{
-    @inlinable public
-    static func < (a:Self, b:Self) -> Bool { a.rawValue < b.rawValue }
+extension BSON.AnyType: Comparable {
+    @inlinable public static func < (a: Self, b: Self) -> Bool { a.rawValue < b.rawValue }
 }

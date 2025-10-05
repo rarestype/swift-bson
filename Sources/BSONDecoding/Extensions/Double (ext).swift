@@ -1,3 +1,2 @@
-extension Double:BSONDecodable
-{
+extension Double: BSONDecodable {
 }

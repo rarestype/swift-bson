@@ -1,9 +1,6 @@
-extension Int8:BSONEncodable
-{
+extension Int8: BSONEncodable {
     /// Encodes this integer as a value of type ``BSON.AnyType/int32``.
-    @inlinable public
-    func encode(to field:inout BSON.FieldEncoder)
-    {
+    @inlinable public func encode(to field: inout BSON.FieldEncoder) {
         field.encode(int32: .init(self))
     }
 }

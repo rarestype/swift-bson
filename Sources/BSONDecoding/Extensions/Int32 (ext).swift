@@ -1,3 +1,2 @@
-extension Int32:BSONDecodable
-{
+extension Int32: BSONDecodable {
 }

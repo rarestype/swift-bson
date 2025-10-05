@@ -1,11 +1,6 @@
-extension BSON
-{
-    @frozen public
-    struct Null:Hashable, Equatable, Sendable
-    {
-        @inlinable public
-        init()
-        {
+extension BSON {
+    @frozen public struct Null: Hashable, Equatable, Sendable {
+        @inlinable public init() {
         }
     }
 }

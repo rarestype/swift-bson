@@ -12,31 +12,22 @@ import BSONABI
 ///     Not every type that *can* be ``BSONListEncodable`` *should* be ``BSONListEncodable``.
 ///     For example, ``String`` is a ``Sequence`` of ``Character``s, but encoding strings as
 ///     lists of characters is just stupid.
-public
-protocol BSONListEncodable:BSONEncodable
-{
+public protocol BSONListEncodable: BSONEncodable {
     /// Populates a list from this instance by encoding to the parameter.
     ///
     /// The implementation must not assume the encoding container is initially empty, because it
     /// may be the owner of the final output buffer.
-    func encode(to bson:inout BSON.ListEncoder)
+    func encode(to bson: inout BSON.ListEncoder)
 }
-extension BSONListEncodable
-{
-    @inlinable public
-    func encode(to field:inout BSON.FieldEncoder)
-    {
+extension BSONListEncodable {
+    @inlinable public func encode(to field: inout BSON.FieldEncoder) {
         self.encode(to: &field[as: BSON.ListEncoder.self])
     }
 }
-extension BSONListEncodable where Self:Sequence, Element:BSONEncodable
-{
+extension BSONListEncodable where Self: Sequence, Element: BSONEncodable {
     /// Encodes this sequence as a value of type ``BSON.AnyType/list``.
-    @inlinable public
-    func encode(to bson:inout BSON.ListEncoder)
-    {
-        for element:Element in self
-        {
+    @inlinable public func encode(to bson: inout BSON.ListEncoder) {
+        for element: Element in self {
             element.encode(to: &bson[+])
         }
     }

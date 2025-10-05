@@ -1,11 +1,8 @@
 import UnixTime
 
-extension BSON
-{
+extension BSON {
     /// Any BSON value.
-    @frozen public
-    enum AnyValue:Sendable
-    {
+    @frozen public enum AnyValue: Sendable {
         /// A general embedded document.
         case document(Document)
         /// An embedded list-document.
@@ -62,14 +59,10 @@ extension BSON
         case timestamp(Timestamp)
     }
 }
-extension BSON.AnyValue
-{
+extension BSON.AnyValue {
     /// The type of this variant value.
-    @inlinable public
-    var type:BSON.AnyType
-    {
-        switch self
-        {
+    @inlinable public var type: BSON.AnyType {
+        switch self {
         case .document:         .document
         case .list:             .list
         case .binary:           .binary
@@ -92,11 +85,8 @@ extension BSON.AnyValue
         }
     }
     /// The size of this variant value when encoded.
-    @inlinable public
-    var size:Int
-    {
-        switch self
-        {
+    @inlinable public var size: Int {
+        switch self {
         case .document(let document):
             document.size
         case .list(let list):
@@ -138,8 +128,7 @@ extension BSON.AnyValue
         }
     }
 }
-extension BSON.AnyValue
-{
+extension BSON.AnyValue {
     /// Promotes a nil result to a thrown ``TypecastError``.
     ///
     /// If `T` conforms to ``BSONDecodable``, prefer calling its throwing
@@ -147,31 +136,23 @@ extension BSON.AnyValue
     ///
     /// >   Throws: A ``TypecastError`` if the given curried method returns nil.
     @inline(__always)
-    @inlinable public
-    func cast<T>(with cast:(Self) throws -> T?) throws -> T
-    {
+    @inlinable public func cast<T>(with cast: (Self) throws -> T?) throws -> T {
         guard
-        let value:T = try cast(self)
-        else
-        {
+        let value: T = try cast(self) else {
             throw BSON.TypecastError<T>.init(invalid: self.type)
         }
 
         return value
     }
 }
-extension BSON.AnyValue
-{
+extension BSON.AnyValue {
     /// Attempts to load an instance of ``Bool`` from this variant.
     ///
     /// -   Returns:
     ///     The payload of this variant if it matches ``bool(_:)``,
     ///     nil otherwise.
-    @inlinable public
-    func `as`(_:Bool.Type) -> Bool?
-    {
-        switch self
-        {
+    @inlinable public func `as`(_: Bool.Type) -> Bool? {
+        switch self {
         case .bool(let bool):   bool
         default:                nil
         }
@@ -190,37 +171,25 @@ extension BSON.AnyValue
     /// This method reports failure in two ways — it returns nil on a type
     /// mismatch, and it throws an ``IntegerOverflowError`` if this variant
     /// was an integer, but it could not be represented exactly by `T`.
-    @inlinable public
-    func `as`<Integer>(_:Integer.Type) throws -> Integer?
-        where Integer:FixedWidthInteger
-    {
-        switch self
-        {
+    @inlinable public func `as`<Integer>(_: Integer.Type) throws -> Integer?
+        where Integer: FixedWidthInteger {
+        switch self {
         case .int32(let int32):
-            if let integer:Integer = .init(exactly: int32)
-            {
+            if let integer: Integer = .init(exactly: int32) {
                 return integer
-            }
-            else
-            {
+            } else {
                 throw BSON.IntegerOverflowError<Integer>.int32(int32)
             }
         case .int64(let int64):
-            if let integer:Integer = .init(exactly: int64)
-            {
+            if let integer: Integer = .init(exactly: int64) {
                 return integer
-            }
-            else
-            {
+            } else {
                 throw BSON.IntegerOverflowError<Integer>.int64(int64)
             }
         case .timestamp(let timestamp):
-            if let integer:Integer = .init(exactly: timestamp.value)
-            {
+            if let integer: Integer = .init(exactly: timestamp.value) {
                 return integer
-            }
-            else
-            {
+            } else {
                 throw BSON.IntegerOverflowError<Integer>.uint64(timestamp.value)
             }
         default:
@@ -233,12 +202,9 @@ extension BSON.AnyValue
     /// -   Returns:
     ///     The closest value of `T` to the payload of this
     ///     variant if it matches ``double(_:)``, nil otherwise.
-    @inlinable public
-    func `as`<Fraction>(_:Fraction.Type) -> Fraction?
-        where Fraction:BinaryFloatingPoint
-    {
-        switch self
-        {
+    @inlinable public func `as`<Fraction>(_: Fraction.Type) -> Fraction?
+        where Fraction: BinaryFloatingPoint {
+        switch self {
         case .double(let double):   return .init(double)
         default:                    return nil
         }
@@ -248,11 +214,8 @@ extension BSON.AnyValue
     /// -   Returns:
     ///     The payload of this variant if it matches ``decimal128(_:)``,
     ///     nil otherwise.
-    @inlinable public
-    func `as`(_:BSON.Decimal128.Type) -> BSON.Decimal128?
-    {
-        switch self
-        {
+    @inlinable public func `as`(_: BSON.Decimal128.Type) -> BSON.Decimal128? {
+        switch self {
         case .decimal128(let decimal):  decimal
         default:                        nil
         }
@@ -262,11 +225,8 @@ extension BSON.AnyValue
     /// -   Returns:
     ///     The payload of this variant if it matches ``id(_:)`` or
     ///     ``pointer(_:_:)``, nil otherwise.
-    @inlinable public
-    func `as`(_:BSON.Identifier.Type) -> BSON.Identifier?
-    {
-        switch self
-        {
+    @inlinable public func `as`(_: BSON.Identifier.Type) -> BSON.Identifier? {
+        switch self {
         case .id(let id):
             id
         case .pointer(_, let id):
@@ -280,11 +240,8 @@ extension BSON.AnyValue
     /// -   Returns:
     ///     The payload of this variant if it matches ``millisecond(_:)``,
     ///     nil otherwise.
-    @inlinable public
-    func `as`(_:UnixMillisecond.Type) -> UnixMillisecond?
-    {
-        switch self
-        {
+    @inlinable public func `as`(_: UnixMillisecond.Type) -> UnixMillisecond? {
+        switch self {
         case .millisecond(let millisecond):
             millisecond
         default:
@@ -296,11 +253,8 @@ extension BSON.AnyValue
     /// -   Returns:
     ///     The payload of this variant if it matches ``regex(_:)``,
     ///     nil otherwise.
-    @inlinable public
-    func `as`(_:BSON.Regex.Type) -> BSON.Regex?
-    {
-        switch self
-        {
+    @inlinable public func `as`(_: BSON.Regex.Type) -> BSON.Regex? {
+        switch self {
         case .regex(let regex):
             regex
         default:
@@ -317,23 +271,17 @@ extension BSON.AnyValue
     ///
     /// >   Complexity:
     ///     O(*n*), where *n* is the length of the string.
-    @inlinable public
-    func `as`(_:String.Type) -> String?
-    {
+    @inlinable public func `as`(_: String.Type) -> String? {
         self.utf8?.description
     }
 }
-extension BSON.AnyValue
-{
+extension BSON.AnyValue {
     /// Attempts to load an explicit ``null`` from this variant.
     ///
     /// -   Returns:
     ///     A (the) instance of ``Null`` if this variant is ``null``, nil otherwise.
-    @inlinable public
-    func `as`(_:BSON.Null.Type) -> BSON.Null?
-    {
-        switch self
-        {
+    @inlinable public func `as`(_: BSON.Null.Type) -> BSON.Null? {
+        switch self {
         case .null: .init()
         default:    nil
         }
@@ -342,11 +290,8 @@ extension BSON.AnyValue
     ///
     /// -   Returns:
     ///     A (the) instance of ``Max`` if this variant is ``max``, nil otherwise.
-    @inlinable public
-    func `as`(_:BSON.Max.Type) -> BSON.Max?
-    {
-        switch self
-        {
+    @inlinable public func `as`(_: BSON.Max.Type) -> BSON.Max? {
+        switch self {
         case .max:  .init()
         default:    nil
         }
@@ -355,29 +300,22 @@ extension BSON.AnyValue
     ///
     /// -   Returns:
     ///     A (the) instance of ``min`` if this variant is ``min``, nil otherwise.
-    @inlinable public
-    func `as`(_:BSON.Min.Type) -> BSON.Min?
-    {
-        switch self
-        {
+    @inlinable public func `as`(_: BSON.Min.Type) -> BSON.Min? {
+        switch self {
         case .min:  .init()
         default:    nil
         }
     }
 }
-extension BSON.AnyValue
-{
+extension BSON.AnyValue {
     /// Attempts to unwrap a binary array from this variant.
     ///
     /// -   Returns: The payload of this variant if it matches ``binary(_:)``,
     ///     nil otherwise.
     ///
     /// >   Complexity: O(1).
-    @inlinable public
-    var binary:BSON.BinaryView<ArraySlice<UInt8>>?
-    {
-        switch self
-        {
+    @inlinable public var binary: BSON.BinaryView<ArraySlice<UInt8>>? {
+        switch self {
         case .binary(let binary):
             binary
         default:
@@ -394,11 +332,8 @@ extension BSON.AnyValue
     /// leading zeros.
     ///
     /// >   Complexity: O(1).
-    @inlinable public
-    var document:BSON.Document?
-    {
-        switch self
-        {
+    @inlinable public var document: BSON.Document? {
+        switch self {
         case .document(let document):   document
         case .list(let list):           .init(list: list)
         default:                        nil
@@ -411,11 +346,8 @@ extension BSON.AnyValue
     ///     nil otherwise.
     ///
     /// >   Complexity: O(1).
-    @inlinable public
-    var list:BSON.List?
-    {
-        switch self
-        {
+    @inlinable public var list: BSON.List? {
+        switch self {
         case .list(let list):   list
         default:                nil
         }
@@ -429,11 +361,8 @@ extension BSON.AnyValue
     ///     or ``javascript(_:)``, nil otherwise.
     ///
     /// >   Complexity: O(1).
-    @inlinable public
-    var utf8:BSON.UTF8View<ArraySlice<UInt8>>?
-    {
-        switch self
-        {
+    @inlinable public var utf8: BSON.UTF8View<ArraySlice<UInt8>>? {
+        switch self {
         case .javascript(let code): code
         case .string(let code):     code
         default:                    nil

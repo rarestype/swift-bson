@@ -1,3 +1,2 @@
-extension LazyDropWhileSequence:BSONListEncodable, BSONEncodable where Element:BSONEncodable
-{
+extension LazyDropWhileSequence: BSONListEncodable, BSONEncodable where Element: BSONEncodable {
 }

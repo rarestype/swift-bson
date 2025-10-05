@@ -1,3 +1,2 @@
-extension BSON.Key:BSONEncodable
-{
+extension BSON.Key: BSONEncodable {
 }

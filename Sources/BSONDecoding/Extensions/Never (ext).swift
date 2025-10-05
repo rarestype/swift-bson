@@ -1,9 +1,6 @@
-extension Never:BSONDecodable
-{
+extension Never: BSONDecodable {
     /// Always throws a ``BSON.TypecastError``.
-    @inlinable public
-    init(bson:BSON.AnyValue) throws
-    {
+    @inlinable public init(bson: BSON.AnyValue) throws {
         throw BSON.TypecastError<Never>.init(invalid: bson.type)
     }
 }

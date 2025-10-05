@@ -1,12 +1,9 @@
 import BSON
 import UnixTime
 
-extension BSON.AnyValue
-{
-    func description(indent:BSON.Indent) -> String
-    {
-        switch self
-        {
+extension BSON.AnyValue {
+    func description(indent: BSON.Indent) -> String {
+        switch self {
         case .document(let document):
             document.description(indent: indent)
         case .list(let list):
@@ -48,13 +45,10 @@ extension BSON.AnyValue
         }
     }
 }
-extension BSON.AnyValue:CustomStringConvertible
-{
-    public
-    var description:String { self.description(indent: "    ") }
+extension BSON.AnyValue: CustomStringConvertible {
+    public var description: String { self.description(indent: "    ") }
 }
-extension BSON.AnyValue:Equatable
-{
+extension BSON.AnyValue: Equatable {
     /// Performs a type-aware equivalence comparison.
     /// If both operands are a ``document(_:)`` (or ``list(_:)``), performs a recursive
     /// type-aware comparison by calling ``BSON/Document.==(_:_:)``.
@@ -77,11 +71,8 @@ extension BSON.AnyValue:Equatable
     /// >   Note:
     ///     The embedded UTF-8 string in the deprecated `pointer(_:_:)` variant
     ///     also receives type-aware treatment.
-    @inlinable public
-    static func == (a:Self, b:Self) -> Bool
-    {
-        switch (a, b)
-        {
+    @inlinable public static func == (a: Self, b: Self) -> Bool {
+        switch (a, b) {
         case (.document     (let a), .document    (let b)):
             a == b
         case (.list         (let a), .list        (let b)):
@@ -126,38 +117,34 @@ extension BSON.AnyValue:Equatable
         }
     }
 }
-extension BSON.AnyValue
-{
+extension BSON.AnyValue {
     /// Recursively parses and re-encodes any embedded documents (and list-documents)
     /// in this variant value.
-    @inlinable public
-    func canonicalized() throws -> Self
-    {
-        switch self
-        {
+    @inlinable public func canonicalized() throws -> Self {
+        switch self {
         case    .document(let document):
             .document(try document.canonicalized())
         case    .list(let list):
             .list(try list.canonicalized())
         case    .binary,
-                .bool,
-                .decimal128,
-                .double,
-                .id,
-                .int32,
-                .int64,
-                .javascript:
+            .bool,
+            .decimal128,
+            .double,
+            .id,
+            .int32,
+            .int64,
+            .javascript:
             self
         case    .javascriptScope(let scope, let utf8):
             .javascriptScope(try scope.canonicalized(), utf8)
         case    .max,
-                .millisecond,
-                .min,
-                .null,
-                .pointer,
-                .regex,
-                .string,
-                .timestamp:
+            .millisecond,
+            .min,
+            .null,
+            .pointer,
+            .regex,
+            .string,
+            .timestamp:
             self
         }
     }

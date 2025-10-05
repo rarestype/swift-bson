@@ -1,3 +1,3 @@
-extension LazyPrefixWhileSequence:BSONListEncodable, BSONEncodable where Element:BSONEncodable
-{
+extension LazyPrefixWhileSequence: BSONListEncodable,
+    BSONEncodable where Element: BSONEncodable {
 }

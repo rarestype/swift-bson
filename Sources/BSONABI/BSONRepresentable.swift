@@ -1,9 +1,7 @@
-public
-protocol BSONRepresentable<BSONRepresentation>
-{
+public protocol BSONRepresentable<BSONRepresentation> {
     associatedtype BSONRepresentation
 
-    init(_ bson:BSONRepresentation)
+    init(_ bson: BSONRepresentation)
 
-    var bson:BSONRepresentation { get }
+    var bson: BSONRepresentation { get }
 }

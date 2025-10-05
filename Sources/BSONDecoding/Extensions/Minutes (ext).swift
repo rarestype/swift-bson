@@ -1,5 +1,4 @@
 import UnixTime
 
-extension Minutes:BSONDecodable
-{
+extension Minutes: BSONDecodable {
 }

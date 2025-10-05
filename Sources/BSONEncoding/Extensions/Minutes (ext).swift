@@ -1,5 +1,4 @@
 import UnixTime
 
-extension Minutes:BSONEncodable
-{
+extension Minutes: BSONEncodable {
 }
