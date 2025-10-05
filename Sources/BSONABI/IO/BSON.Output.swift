@@ -1,20 +1,14 @@
 import UnixTime
 
-extension BSON
-{
+extension BSON {
     /// A type for serializing raw BSON tokens. This is used to implement BSON DSLs, and most
     /// users of this library should not need to interact with it directly.
-    @frozen public
-    struct Output:Sendable
-    {
-        public
-        var bytes:ArraySlice<UInt8>
+    @frozen public struct Output: Sendable {
+        public var bytes: ArraySlice<UInt8>
 
         /// Create an output with a pre-allocated destination buffer. The buffer
         /// does *not* need to be empty, and existing data will not be cleared.
-        @inlinable public
-        init(preallocated bytes:ArraySlice<UInt8>)
-        {
+        @inlinable public init(preallocated bytes: ArraySlice<UInt8>) {
             self.bytes = bytes
         }
 
@@ -24,62 +18,43 @@ extension BSON
         /// The size hint is only effective if `Destination` provides a real,
         /// non-defaulted witness for
         /// ``RangeReplaceableCollection.reserveCapacity(_:) [requirement]``.
-        @inlinable public
-        init(capacity:Int)
-        {
+        @inlinable public init(capacity: Int) {
             self.bytes = .init()
             self.bytes.reserveCapacity(capacity)
         }
     }
 }
-extension BSON.Output:BSON.OutputStream
-{
+extension BSON.Output: BSON.OutputStream {
     /// Reserves another `bytes` worth of capacity in the output destination, in addition to the
     /// bytes already present.
-    @inlinable public mutating
-    func reserve(another bytes:Int)
-    {
+    @inlinable public mutating func reserve(another bytes: Int) {
         self.bytes.reserveCapacity(self.bytes.count + bytes)
     }
 
     /// Appends a single byte to the output destination.
-    @inlinable public mutating
-    func append(_ byte:UInt8)
-    {
+    @inlinable public mutating func append(_ byte: UInt8) {
         self.bytes.append(byte)
     }
     /// Appends a sequence of bytes to the output destination.
-    @inlinable public mutating
-    func append(_ bytes:some Sequence<UInt8>)
-    {
+    @inlinable public mutating func append(_ bytes: some Sequence<UInt8>) {
         self.bytes.append(contentsOf: bytes)
     }
 }
-extension BSON.Output
-{
-    @inlinable mutating
-    func serialize(type:BSON.AnyType)
-    {
+extension BSON.Output {
+    @inlinable mutating func serialize(type: BSON.AnyType) {
         self.append(type.rawValue)
     }
 
-    @inlinable mutating
-    func serialize(id:BSON.Identifier)
-    {
-        withUnsafeBytes(of: id.bitPattern)
-        {
+    @inlinable mutating func serialize(id: BSON.Identifier) {
+        withUnsafeBytes(of: id.bitPattern) {
             self.append($0)
         }
     }
 }
-extension BSON.Output
-{
+extension BSON.Output {
     /// Serializes the given variant value, without encoding its type.
-    @inlinable mutating
-    func serialize(variant:BSON.AnyValue)
-    {
-        switch variant
-        {
+    @inlinable mutating func serialize(variant: BSON.AnyValue) {
+        switch variant {
         case .double(let double):
             self.serialize(integer: double.bitPattern)
 
@@ -119,7 +94,7 @@ extension BSON.Output
             self.serialize(utf8: code)
 
         case .javascriptScope(let scope, let code):
-            let size:Int32 = 4 + Int32.init(scope.size) + Int32.init(code.size)
+            let size: Int32 = 4 + Int32.init(scope.size) + Int32.init(code.size)
             self.serialize(integer: size)
             self.serialize(utf8: code)
             self.serialize(document: scope)
@@ -146,58 +121,48 @@ extension BSON.Output
     /// Serializes the raw type code of the given variant value, followed by
     /// the field key (with a trailing null byte), followed by the variant value
     /// itself.
-    @inlinable mutating
-    func serialize(key:BSON.Key, value:BSON.AnyValue)
-    {
+    @inlinable mutating func serialize(key: BSON.Key, value: BSON.AnyValue) {
         self.serialize(type: value.type)
         self.serialize(cString: key.rawValue)
         self.serialize(variant: value)
     }
-    @inlinable mutating
-    func serialize(fields:some Sequence<(key:BSON.Key, value:BSON.AnyValue)>)
-    {
-        for (key, value):(BSON.Key, BSON.AnyValue) in fields
-        {
+    @inlinable mutating func serialize(
+        fields: some Sequence<(key: BSON.Key, value: BSON.AnyValue)>
+    ) {
+        for (key, value): (BSON.Key, BSON.AnyValue) in fields {
             self.serialize(key: key, value: value)
         }
     }
 }
-extension BSON.Output
-{
+extension BSON.Output {
     /// Temporarily rebinds this output’s storage buffer to a field encoder. Field encoding is
     /// always lazy, so the getter has no effects.
-    @inlinable public
-    subscript(with key:BSON.Key) -> BSON.FieldEncoder
-    {
-        get
-        {
+    @inlinable public subscript(with key: BSON.Key) -> BSON.FieldEncoder {
+        get {
             .init(key: key, output: self)
         }
-        _modify
-        {
-            var field:BSON.FieldEncoder = self[with: key]
+        _modify {
+            var field: BSON.FieldEncoder = self[with: key]
             self = .init(preallocated: [])
             defer { self = field.output }
             yield &field
         }
     }
 }
-extension BSON.Output
-{
+extension BSON.Output {
     /// Temporarily rebinds this output’s storage buffer to an encoder of the specified type,
     /// bracketing it with the appropriate headers or trailers.
     ///
     /// -   See also: ``subscript(as:)``.
-    @inlinable public
-    subscript<Encoder>(as _:Encoder.Type, in frame:BSON.DocumentFrame.Type) -> Encoder
-        where Encoder:BSON.Encoder
-    {
-        mutating _read
-        {
+    @inlinable public subscript<Encoder>(
+        as _: Encoder.Type,
+        in frame: BSON.DocumentFrame.Type
+    ) -> Encoder
+        where Encoder: BSON.Encoder {
+        mutating _read {
             yield  self[in: frame][as: Encoder.self]
         }
-        _modify
-        {
+        _modify {
             yield &self[in: frame][as: Encoder.self]
         }
     }
@@ -210,46 +175,37 @@ extension BSON.Output
     /// no writes.
     ///
     /// -   See also: ``subscript(with:)``.
-    @inlinable public
-    subscript<Encoder>(as _:Encoder.Type) -> Encoder where Encoder:BSON.Encoder
-    {
-        mutating _read
-        {
-            let encoder:Encoder = .init(consume self)
+    @inlinable public subscript<Encoder>(
+        as _: Encoder.Type
+    ) -> Encoder where Encoder: BSON.Encoder {
+        mutating _read {
+            let encoder: Encoder = .init(consume self)
             defer { self = encoder.move() }
             yield encoder
         }
-        _modify
-        {
-            var encoder:Encoder = .init(consume self)
+        _modify {
+            var encoder: Encoder = .init(consume self)
             defer { self = encoder.move() }
             yield &encoder
         }
     }
 
-    @inlinable
-    subscript(in frame:(some BSON.BufferFrame).Type) -> Self
-    {
-        mutating _read
-        {
-            let header:Int = self.bytes.endIndex
+    @inlinable subscript(in frame: (some BSON.BufferFrame).Type) -> Self {
+        mutating _read {
+            let header: Int = self.bytes.endIndex
 
             self.append(0x00)
             self.append(0x00)
             self.append(0x00)
             self.append(0x00)
 
-            defer
-            {
-                let written:Int
+            defer {
+                let written: Int
 
-                if  let trailer:UInt8 = frame.trailer
-                {
+                if  let trailer: UInt8 = frame.trailer {
                     self.append(trailer)
                     written = 1
-                }
-                else
-                {
+                } else {
                     written = 0
                 }
 
@@ -259,9 +215,8 @@ extension BSON.Output
             yield self
         }
 
-        _modify
-        {
-            let header:Int = self.bytes.endIndex
+        _modify {
+            let header: Int = self.bytes.endIndex
 
             // make room for the length header
             self.append(0x00)
@@ -269,18 +224,18 @@ extension BSON.Output
             self.append(0x00)
             self.append(0x00)
 
-            defer
-            {
+            defer {
                 /// Make sure the caller has not cleared the buffer.
                 assert(self.bytes.index(header, offsetBy: 4) <= self.bytes.endIndex)
 
-                if  let trailer:UInt8 = frame.trailer
-                {
+                if  let trailer: UInt8 = frame.trailer {
                     self.append(trailer)
                 }
 
-                let written:Int = self.bytes.distance(from: header,
-                    to: self.bytes.endIndex)
+                let written: Int = self.bytes.distance(
+                    from: header,
+                    to: self.bytes.endIndex
+                )
 
                 self.update(length: written - frame.skipped - 4, at: header)
             }
@@ -289,18 +244,13 @@ extension BSON.Output
         }
     }
 }
-extension BSON.Output
-{
+extension BSON.Output {
     /// Updates the length header at the specified `header` position to contain the given
     /// `length` value, encoding it to the output stream in little-endian byte order.
-    @inlinable mutating
-    func update(length:Int, at header:Int)
-    {
-        withUnsafeBytes(of: Int32.init(length).littleEndian)
-        {
-            var index:Int = header
-            for byte:UInt8 in $0
-            {
+    @inlinable mutating func update(length: Int, at header: Int) {
+        withUnsafeBytes(of: Int32.init(length).littleEndian) {
+            var index: Int = header
+            for byte: UInt8 in $0 {
                 self.bytes[index] = byte
                 self.bytes.formIndex(after: &index)
             }

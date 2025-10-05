@@ -1,16 +1,11 @@
-extension BSON
-{
-    public
-    protocol Encoder<Frame>
-    {
-        associatedtype Frame:BufferFrame
+extension BSON {
+    public protocol Encoder<Frame> {
+        associatedtype Frame: BufferFrame
 
-        static
-        var frame:Frame { get }
+        static var frame: Frame { get }
 
-        init(_:consuming Output)
+        init(_: consuming Output)
 
-        consuming
-        func move() -> Output
+        consuming func move() -> Output
     }
 }

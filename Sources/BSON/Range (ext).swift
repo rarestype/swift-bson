@@ -1,5 +1,4 @@
-extension Range
-{
+extension Range {
     /// The default BSON representation of a ``Range``, which is a BSON document keyed by
     /// `M` (``lowerBound``) and `V` (``upperBound``).
     ///
@@ -8,33 +7,24 @@ extension Range
     ///
     /// Some applications that store arrays of ranges may benefit from a specialized buffer
     /// layout.
-    @frozen public
-    enum CodingKey:String, Sendable
-    {
+    @frozen public enum CodingKey: String, Sendable {
         case lowerBound = "M"
         case upperBound = "V"
     }
 }
-extension Range:BSONDocumentEncodable, BSONEncodable where Bound:BSONEncodable
-{
-    @inlinable public
-    func encode(to bson:inout BSON.DocumentEncoder<CodingKey>)
-    {
+extension Range: BSONDocumentEncodable, BSONEncodable where Bound: BSONEncodable {
+    @inlinable public func encode(to bson: inout BSON.DocumentEncoder<CodingKey>) {
         bson[.lowerBound] = self.lowerBound
         bson[.upperBound] = self.upperBound
     }
 }
-extension Range:BSONDocumentDecodable, BSONDecodable where Bound:BSONDecodable
-{
+extension Range: BSONDocumentDecodable, BSONDecodable where Bound: BSONDecodable {
     /// If the range is invalid, the initializer throws an error.
-    @inlinable public
-    init(bson:BSON.DocumentDecoder<CodingKey>) throws
-    {
-        let lowerBound:Bound = try bson[.lowerBound].decode()
-        let upperBound:Bound = try bson[.upperBound].decode()
+    @inlinable public init(bson: BSON.DocumentDecoder<CodingKey>) throws {
+        let lowerBound: Bound = try bson[.lowerBound].decode()
+        let upperBound: Bound = try bson[.upperBound].decode()
 
-        if  upperBound < lowerBound
-        {
+        if  upperBound < lowerBound {
             throw BSON.RangeDecodingError.invalidBounds
         }
 

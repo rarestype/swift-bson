@@ -1,3 +1,2 @@
-extension UInt64:BSONDecodable
-{
+extension UInt64: BSONDecodable {
 }

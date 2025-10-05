@@ -1,3 +1,2 @@
-extension UInt16:BSON.BinaryPackable
-{
+extension UInt16: BSON.BinaryPackable {
 }

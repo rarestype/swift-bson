@@ -2,118 +2,99 @@ import BSON
 import BSONReflection
 import Testing
 
-@Suite
-struct Reflection
-{
-    @Test
-    static func document() throws
-    {
-        let document:BSON.Document = .init(BSON.Key.self)
-        {
+@Suite struct Reflection {
+    @Test static func document() throws {
+        let document: BSON.Document = .init(BSON.Key.self) {
             $0["_id"] = 0x1111_2222_3333_4444_5555_6666 as BSON.Identifier
             $0["facility"] = "Recreation and Activities Center"
 
             $0["logo"] = BSON.BinaryView<[UInt8]>.init(
                 subtype: .generic,
-                bytes: [1, 2, 3, 4, 5])
+                bytes: [1, 2, 3, 4, 5]
+            )
 
             $0["incidents"] = 145
             $0["averageRating"] = 2.76
             $0["supervisors"] = ["Barbie", "Midge", "Raquelle"]
             $0["notes"] = [] as [Never]
             $0["campaigns"](BSON.Key.self) { _ in }
-            $0["complaints"](Int.self)
-            {
-                $0(BSON.Key.self)
-                {
+            $0["complaints"](Int.self) {
+                $0(BSON.Key.self) {
                     $0["_id"] = 0x4455_6677_8899_AABB
                     $0["type"] = "property damage"
                     $0["supervisor"] = "Raquelle"
                     $0["status"] = "open"
-                    $0["date"](BSON.Key.self)
-                    {
+                    $0["date"](BSON.Key.self) {
                         $0["Y"] = 2022
                         $0["M"] = 12
                         $0["D"] = 31
                     }
                 }
-                $0(BSON.Key.self)
-                {
+                $0(BSON.Key.self) {
                     $0["_id"] = 0x4455_6677_8899_AABC
                     $0["type"] = "sexual assault"
                     $0["supervisor"] = "Midge"
                     $0["status"] = "open"
                     $0["rpi"] = true
-                    $0["date"](BSON.Key.self)
-                    {
+                    $0["date"](BSON.Key.self) {
                         $0["Y"] = 2023
                         $0["M"] = 1
                         $0["D"] = 1
                     }
                 }
-                $0(BSON.Key.self)
-                {
+                $0(BSON.Key.self) {
                     $0["_id"] = 0x4455_6677_8899_AABD
                     $0["type"] = "property theft"
                     $0["supervisor"] = "Barbie"
                     $0["status"] = "closed"
-                    $0["date"](BSON.Key.self)
-                    {
+                    $0["date"](BSON.Key.self) {
                         $0["Y"] = 2023
                         $0["M"] = 1
                         $0["D"] = 4
                     }
                 }
-                $0(BSON.Key.self)
-                {
+                $0(BSON.Key.self) {
                     $0["_id"] = 0x4455_6677_8899_AABE
                     $0["type"] = "property damage"
                     $0["supervisor"] = "Midge"
                     $0["status"] = "open"
-                    $0["date"](BSON.Key.self)
-                    {
+                    $0["date"](BSON.Key.self) {
                         $0["Y"] = 2023
                         $0["M"] = 1
                         $0["D"] = 16
                     }
                 }
-                $0(BSON.Key.self)
-                {
+                $0(BSON.Key.self) {
                     $0["_id"] = 0x4455_6677_8899_AABF
                     $0["type"] = "assault"
                     $0["supervisor"] = "Raquelle"
                     $0["status"] = "closed"
                     $0["rpi"] = false
-                    $0["date"](BSON.Key.self)
-                    {
+                    $0["date"](BSON.Key.self) {
                         $0["Y"] = 2023
                         $0["M"] = 1
                         $0["D"] = 22
                     }
                 }
-                $0(BSON.Key.self)
-                {
+                $0(BSON.Key.self) {
                     $0["_id"] = 0x4455_6677_8899_AAC0
                     $0["type"] = "guest expulsion"
                     $0["supervisor"] = "Barbie"
                     $0["status"] = "closed"
                     $0["rpi"] = true
-                    $0["date"](BSON.Key.self)
-                    {
+                    $0["date"](BSON.Key.self) {
                         $0["Y"] = 2023
                         $0["M"] = 2
                         $0["D"] = 14
                     }
                 }
-                $0(BSON.Key.self)
-                {
+                $0(BSON.Key.self) {
                     $0["_id"] = 0x4455_6677_8899_AAC1
                     $0["type"] = "sexual assault"
                     $0["supervisor"] = "Barbie"
                     $0["status"] = "open"
                     $0["rpi"] = false
-                    $0["date"](BSON.Key.self)
-                    {
+                    $0["date"](BSON.Key.self) {
                         $0["Y"] = 2023
                         $0["M"] = 2
                         $0["D"] = 14
@@ -121,9 +102,8 @@ struct Reflection
                 }
             }
         }
-        let value:BSON.AnyValue = .document(document)
-        let expected:String =
-        """
+        let value: BSON.AnyValue = .document(document)
+        let expected: String = """
         {
             $0[_id] = 0x11112222_33334444_55556666
             $0[facility] = "Recreation and Activities Center"
@@ -239,15 +219,14 @@ struct Reflection
         }
         """
 
-        let reflected:String = "\(value)"
+        let reflected: String = "\(value)"
 
-        let reflectedLines:[Substring] = reflected.split(whereSeparator: \.isNewline)
-        let expectedLines:[Substring] = expected.split(whereSeparator: \.isNewline)
+        let reflectedLines: [Substring] = reflected.split(whereSeparator: \.isNewline)
+        let expectedLines: [Substring] = expected.split(whereSeparator: \.isNewline)
 
         #expect(reflectedLines.count == expectedLines.count)
 
-        for i:Int in reflectedLines.indices
-        {
+        for i: Int in reflectedLines.indices {
             #expect(reflectedLines[i] == expectedLines[i], "Line \(i)")
         }
     }

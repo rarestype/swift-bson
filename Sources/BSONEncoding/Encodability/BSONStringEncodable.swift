@@ -11,16 +11,13 @@
 ///     ``BSONStringEncodable``. For example, ``Int`` is
 ///     ``CustomStringConvertible``, but it should encode itself as an
 ///     integer, not a string.
-public
-protocol BSONStringEncodable:BSONEncodable
-{
+public protocol BSONStringEncodable: BSONEncodable {
     /// Converts an instance of this type to a string. This requirement
     /// restates its counterpart in ``LosslessStringConvertible`` if
     /// `Self` also conforms to it.
-    var description:String { get }
+    var description: String { get }
 }
-extension BSONStringEncodable
-{
+extension BSONStringEncodable {
     /// Encodes the ``description`` of this instance as a BSON UTF-8 string.
     ///
     /// This default implementation is provided on an extension on a
@@ -28,9 +25,7 @@ extension BSONStringEncodable
     /// itself to prevent unexpected behavior for types (such as ``Double``)
     /// who implement ``LosslessStringConvertible``, but expect to be
     /// encoded as something besides a UTF-8 string.
-    @inlinable public
-    func encode(to field:inout BSON.FieldEncoder)
-    {
+    @inlinable public func encode(to field: inout BSON.FieldEncoder) {
         self.description.encode(to: &field)
     }
 }

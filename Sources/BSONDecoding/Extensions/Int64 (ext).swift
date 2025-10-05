@@ -1,3 +1,2 @@
-extension Int64:BSONDecodable
-{
+extension Int64: BSONDecodable {
 }

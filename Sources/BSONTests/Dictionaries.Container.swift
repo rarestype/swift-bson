@@ -1,42 +1,31 @@
 import BSON
 
-extension Dictionaries
-{
-    struct Container
-    {
-        let dictionary:[NestedKey: String]
+extension Dictionaries {
+    struct Container {
+        let dictionary: [NestedKey: String]
 
-        init(_ dictionary:[NestedKey: String])
-        {
+        init(_ dictionary: [NestedKey: String]) {
             self.dictionary = dictionary
         }
     }
 }
-extension Dictionaries.Container
-{
-    enum CodingKey:String, Sendable
-    {
+extension Dictionaries.Container {
+    enum CodingKey: String, Sendable {
         case dictionary
     }
 }
-extension Dictionaries.Container:BSONDocumentEncodable
-{
-    func encode(to bson:inout BSON.DocumentEncoder<CodingKey>)
-    {
+extension Dictionaries.Container: BSONDocumentEncodable {
+    func encode(to bson: inout BSON.DocumentEncoder<CodingKey>) {
         bson[.dictionary] = self.dictionary
     }
 }
-extension Dictionaries.Container:BSONDocumentDecodable
-{
-    init(bson:BSON.DocumentDecoder<CodingKey>) throws
-    {
+extension Dictionaries.Container: BSONDocumentDecodable {
+    init(bson: BSON.DocumentDecoder<CodingKey>) throws {
         self.init(try bson[.dictionary].decode())
     }
 }
-extension Dictionaries.Container
-{
-    func recode() throws -> Self
-    {
+extension Dictionaries.Container {
+    func recode() throws -> Self {
         try .init(bson: BSON.Document.init(encoding: self))
     }
 }

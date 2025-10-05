@@ -1,10 +1,6 @@
-extension BSON.BinaryShapeError:CustomStringConvertible
-{
-    public
-    var description:String
-    {
-        switch self.expected
-        {
+extension BSON.BinaryShapeError: CustomStringConvertible {
+    public var description: String {
+        switch self.expected {
         case nil:
             "invalid size (\(self.bytes))"
 

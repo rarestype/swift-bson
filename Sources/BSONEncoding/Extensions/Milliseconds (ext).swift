@@ -1,5 +1,4 @@
 import UnixTime
 
-extension Milliseconds:BSONEncodable
-{
+extension Milliseconds: BSONEncodable {
 }

@@ -1,79 +1,53 @@
-extension BSON
-{
-    @frozen public
-    struct BinaryEncoder
-    {
-        @usableFromInline
-        var output:BSON.Output
-        @usableFromInline
-        var first:Int
+extension BSON {
+    @frozen public struct BinaryEncoder {
+        @usableFromInline var output: BSON.Output
+        @usableFromInline var first: Int
 
-        @inlinable
-        init(_ output:BSON.Output, first:Int)
-        {
+        @inlinable init(_ output: BSON.Output, first: Int) {
             self.output = output
             self.first = first
         }
     }
 }
-extension BSON.BinaryEncoder
-{
-    @inlinable public
-    var subtype:BSON.BinarySubtype
-    {
-        get
-        {
+extension BSON.BinaryEncoder {
+    @inlinable public var subtype: BSON.BinarySubtype {
+        get {
             .init(unchecked: self.output.bytes[self.first])
         }
-        set(value)
-        {
+        set(value) {
             self.output.bytes[self.first] = value.rawValue
         }
     }
 
-    @inlinable
-    var bytes:ArraySlice<UInt8>
-    {
+    @inlinable var bytes: ArraySlice<UInt8> {
         self.output.bytes[self.output.bytes.index(after: self.first)...]
     }
 }
-extension BSON.BinaryEncoder:BSON.Encoder
-{
+extension BSON.BinaryEncoder: BSON.Encoder {
     /// Creates a binary encoder by taking ownership the given output buffer, initializing the
     /// binary subtype to ``BSON.BinarySubtype/generic``.
-    @inlinable public
-    init(_ output:consuming BSON.Output)
-    {
-        let subtype:BSON.BinarySubtype = .generic
-        let index:Int = output.bytes.endIndex
+    @inlinable public init(_ output: consuming BSON.Output) {
+        let subtype: BSON.BinarySubtype = .generic
+        let index: Int = output.bytes.endIndex
         output.append(subtype.rawValue)
 
         self.init(output, first: index)
     }
 
-    @inlinable public consuming
-    func move() -> BSON.Output { self.output }
+    @inlinable public consuming func move() -> BSON.Output { self.output }
 
-    @inlinable public static
-    var frame:BSON.BinaryFrame { .binary }
+    @inlinable public static var frame: BSON.BinaryFrame { .binary }
 }
-extension BSON.BinaryEncoder
-{
-    @inlinable public static
-    func += (self:inout Self, bytes:some Sequence<UInt8>)
-    {
+extension BSON.BinaryEncoder {
+    @inlinable public static func += (self: inout Self, bytes: some Sequence<UInt8>) {
         self.output.append(bytes)
     }
 
-    @inlinable public mutating
-    func append(_ byte:UInt8)
-    {
+    @inlinable public mutating func append(_ byte: UInt8) {
         self.output.append(byte)
     }
 
-    @inlinable public mutating
-    func reserve(another bytes:Int)
-    {
+    @inlinable public mutating func reserve(another bytes: Int) {
         self.output.reserve(another: bytes)
     }
 }

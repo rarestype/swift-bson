@@ -1,5 +1,4 @@
 import UnixTime
 
-extension Milliseconds:BSONDecodable
-{
+extension Milliseconds: BSONDecodable {
 }

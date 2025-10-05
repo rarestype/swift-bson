@@ -1,3 +1,2 @@
-extension UInt16:BSONDecodable
-{
+extension UInt16: BSONDecodable {
 }

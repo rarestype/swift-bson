@@ -1,9 +1,7 @@
-extension BSON
-{
+extension BSON {
     /// An overflow occurred while casting an integer value to a desired type.
-    @frozen public
-    enum IntegerOverflowError<Overflowed>:Equatable, Error where Overflowed:FixedWidthInteger
-    {
+    @frozen public enum IntegerOverflowError<Overflowed>: Equatable,
+        Error where Overflowed: FixedWidthInteger {
         /// An overflow occurred while casting an ``Int32`` to an
         /// instance of `Overflowed`.
         case int32(Int32)

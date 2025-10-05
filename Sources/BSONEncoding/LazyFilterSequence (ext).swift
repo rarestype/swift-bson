@@ -1,3 +1,2 @@
-extension LazyFilterSequence:BSONListEncodable, BSONEncodable where Element:BSONEncodable
-{
+extension LazyFilterSequence: BSONListEncodable, BSONEncodable where Element: BSONEncodable {
 }
