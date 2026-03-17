@@ -14,10 +14,10 @@ let package: Package = .init(
         .library(name: "BSON_UUID", targets: ["BSON_UUID"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/ordo-one/dollup", from: "1.0.1"),
+        .package(url: "https://github.com/rarestype/h", from: "1.0.0"),
+        .package(url: "https://github.com/rarestype/swift-unixtime", from: "0.2.1"),
         .package(url: "https://github.com/tayloraswift/swift-grammar", from: "0.5.0"),
-        .package(url: "https://github.com/tayloraswift/swift-hash", from: "0.7.0"),
-        .package(url: "https://github.com/tayloraswift/swift-unixtime", from: "0.2.0"),
-        .package(url: "https://github.com/tayloraswift/dollup", from: "0.2.0"),
     ],
     targets: [
         .target(
@@ -92,7 +92,7 @@ let package: Package = .init(
             name: "BSON_UUID",
             dependencies: [
                 .target(name: "BSON"),
-                .product(name: "UUID", package: "swift-hash"),
+                .product(name: "UUID", package: "h"),
             ]
         ),
 
