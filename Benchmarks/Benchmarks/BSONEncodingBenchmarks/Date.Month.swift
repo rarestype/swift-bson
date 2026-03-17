@@ -1,9 +1,7 @@
 import BSON
 
-extension Date
-{
-    enum Month:Int32, CaseIterable
-    {
+extension Date {
+    enum Month: Int32, CaseIterable {
         case january = 1
         case february
         case march
@@ -18,6 +16,5 @@ extension Date
         case december
     }
 }
-extension Date.Month:BSONDecodable, BSONEncodable
-{
+extension Date.Month: BSONDecodable, BSONEncodable {
 }

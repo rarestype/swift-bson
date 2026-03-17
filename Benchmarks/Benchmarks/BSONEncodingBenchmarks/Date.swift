@@ -1,15 +1,13 @@
 import BSON
 
-struct Date
-{
-    let year:Year
-    let month:Month
-    let day:Int
-    let weekday:Weekday
-    var comment:String
+struct Date {
+    let year: Year
+    let month: Month
+    let day: Int
+    let weekday: Weekday
+    var comment: String
 
-    init(year:Year, month:Month, day:Int, weekday:Weekday)
-    {
+    init(year: Year, month: Month, day: Int, weekday: Weekday) {
         self.year = year
         self.month = month
         self.day = day
@@ -18,17 +16,13 @@ struct Date
         self.comment = self.description
     }
 }
-extension Date:CustomStringConvertible
-{
-    var description:String
-    {
+extension Date: CustomStringConvertible {
+    var description: String {
         "\(self.weekday) \(self.month) \(self.day), \(self.year)"
     }
 }
-extension Date:BSONDocumentEncodable
-{
-    func encode(to bson:inout BSON.DocumentEncoder<BSON.Key>)
-    {
+extension Date: BSONDocumentEncodable {
+    func encode(to bson: inout BSON.DocumentEncoder<BSON.Key>) {
         bson["year"] = self.year
         bson["month"] = self.month
         bson["day"] = self.day
