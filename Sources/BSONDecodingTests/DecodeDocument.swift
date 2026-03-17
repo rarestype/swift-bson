@@ -39,8 +39,7 @@ extension DecodeDocument {
 
     @Test func KeyNotMatching() throws {
         #expect(
-            throws:
-            BSON.DecodingError<CodingKey>.init(
+            throws: BSON.DecodingError<CodingKey>.init(
                 BSON.TypecastError<BSON.UTF8View<ArraySlice<UInt8>>>.init(invalid: .bool),
                 in: .inhabited
             )
@@ -86,8 +85,7 @@ extension DecodeDocument {
 
     @Test func KeyOptionalNotInhabited() throws {
         #expect(
-            throws:
-            BSON.DecodingError<CodingKey>.init(
+            throws: BSON.DecodingError<CodingKey>.init(
                 BSON.TypecastError<Bool>.init(invalid: .null),
                 in: .present
             )

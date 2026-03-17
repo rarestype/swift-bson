@@ -37,8 +37,7 @@ extension BSONEncodable where Self == BSON.Null {
 @available(
     *, deprecated,
     message: "UInt64 is not recommended for BSON that will be handled by MongoDB."
-)
-extension UInt64: BSONEncodable {
+) extension UInt64: BSONEncodable {
     /// Encodes this integer as a value of type ``BSON.AnyType/timestamp``.
     @inlinable public func encode(to field: inout BSON.FieldEncoder) {
         field.encode(timestamp: .init(self))
@@ -47,8 +46,7 @@ extension UInt64: BSONEncodable {
 @available(
     *, deprecated,
     message: "UInt is not recommended for BSON that will be handled by MongoDB."
-)
-extension UInt: BSONEncodable {
+) extension UInt: BSONEncodable {
     /// Encodes this integer as a value of type ``BSON.AnyType/timestamp``.
     @inlinable public func encode(to field: inout BSON.FieldEncoder) {
         field.encode(timestamp: .init(UInt64.init(self)))
