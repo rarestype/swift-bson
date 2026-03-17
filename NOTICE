@@ -1,12 +1,8 @@
-the `swift-bson` package was created by Diana Ma (@taylorswift).
+the `swift-bson` package was created by diana ma (@taylorswift).
 
 you are welcome to contribute to this project at:
 
-    https://github.com/tayloraswift/swift-bson
+    https://github.com/rarestype/swift-bson
 
 we do not maintain any other mirrors of this repository, and such
 forks of this repository may not carry the most up-to-date code.
-
-contributors:
-
-1.  Diana Ma (@taylorswift, 2024)
