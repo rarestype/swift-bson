@@ -1,9 +1,7 @@
 import BSON
 
-extension Date
-{
-    enum Weekday:String, CaseIterable
-    {
+extension Date {
+    enum Weekday: String, CaseIterable {
         case monday
         case tuesday
         case wednesday
@@ -13,6 +11,5 @@ extension Date
         case sunday
     }
 }
-extension Date.Weekday:BSONDecodable, BSONEncodable
-{
+extension Date.Weekday: BSONDecodable, BSONEncodable {
 }
