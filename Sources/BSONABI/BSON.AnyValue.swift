@@ -135,8 +135,9 @@ extension BSON.AnyValue {
     /// ``BSONDecodable/init(bson:) [requirement]`` to calling this method directly.
     ///
     /// >   Throws: A ``TypecastError`` if the given curried method returns nil.
-    @inline(__always)
-    @inlinable public func cast<T>(with cast: (Self) throws -> T?) throws -> T {
+    @inline(__always) @inlinable public func cast<T>(
+        with cast: (Self) throws -> T?
+    ) throws -> T {
         guard
         let value: T = try cast(self) else {
             throw BSON.TypecastError<T>.init(invalid: self.type)

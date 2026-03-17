@@ -32,8 +32,7 @@ import Testing
 extension DecodeList {
     @Test func None() throws {
         #expect(
-            throws:
-            BSON.DecodingError<CodingKey>.init(
+            throws: BSON.DecodingError<CodingKey>.init(
                 BSON.DocumentKeyError<Int>.undefined(0),
                 in: .w
             )
@@ -54,8 +53,7 @@ extension DecodeList {
 
     @Test func ThreeToTwo() throws {
         #expect(
-            throws:
-            BSON.DecodingError<CodingKey>.init(
+            throws: BSON.DecodingError<CodingKey>.init(
                 BSON.DecodingError<Int>.init(
                     BSON.TypecastError<Never>.init(invalid: .string),
                     in: 2
@@ -78,8 +76,7 @@ extension DecodeList {
 
     @Test func MapInvalid() throws {
         #expect(
-            throws:
-            BSON.DecodingError<CodingKey>.init(
+            throws: BSON.DecodingError<CodingKey>.init(
                 BSON.DecodingError<Int>.init(
                     BSON.TypecastError<BSON.UTF8View<ArraySlice<UInt8>>>.init(invalid: .int32),
                     in: 2
@@ -101,8 +98,7 @@ extension DecodeList {
 
     @Test func ElementInvalid() throws {
         #expect(
-            throws:
-            BSON.DecodingError<CodingKey>.init(
+            throws: BSON.DecodingError<CodingKey>.init(
                 BSON.DecodingError<Int>.init(
                     BSON.TypecastError<BSON.UTF8View<ArraySlice<UInt8>>>.init(invalid: .int32),
                     in: 2
