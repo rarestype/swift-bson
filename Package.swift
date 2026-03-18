@@ -16,7 +16,7 @@ let package: Package = .init(
     dependencies: [
         .package(url: "https://github.com/ordo-one/dollup", from: "1.0.1"),
         .package(url: "https://github.com/rarestype/h", from: "1.0.0"),
-        .package(url: "https://github.com/rarestype/swift-unixtime", from: "0.2.1"),
+        .package(url: "https://github.com/rarestype/u", from: "1.0.0"),
         .package(url: "https://github.com/tayloraswift/swift-grammar", from: "0.5.0"),
     ],
     targets: [
@@ -33,7 +33,7 @@ let package: Package = .init(
         .target(
             name: "BSONABI",
             dependencies: [
-                .product(name: "UnixTime", package: "swift-unixtime"),
+                .product(name: "UnixTime", package: "u"),
             ]
         ),
 
@@ -84,7 +84,7 @@ let package: Package = .init(
             name: "BSON_ISO",
             dependencies: [
                 .target(name: "BSON"),
-                .product(name: "ISO", package: "swift-unixtime"),
+                .product(name: "ISO", package: "u"),
             ]
         ),
 
