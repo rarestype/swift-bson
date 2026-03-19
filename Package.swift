@@ -17,7 +17,7 @@ let package: Package = .init(
         .package(url: "https://github.com/ordo-one/dollup", from: "1.0.1"),
         .package(url: "https://github.com/rarestype/h", from: "1.0.0"),
         .package(url: "https://github.com/rarestype/u", from: "1.0.0"),
-        .package(url: "https://github.com/tayloraswift/swift-grammar", from: "0.5.0"),
+        .package(url: "https://github.com/rarestype/gram", from: "1.0.0"),
     ],
     targets: [
         .target(
@@ -26,7 +26,7 @@ let package: Package = .init(
                 .target(name: "BSONArrays"),
                 .target(name: "BSONDecoding"),
                 .target(name: "BSONEncoding"),
-                .product(name: "TraceableErrors", package: "swift-grammar"),
+                .product(name: "TraceableErrors", package: "gram"),
             ]
         ),
 
