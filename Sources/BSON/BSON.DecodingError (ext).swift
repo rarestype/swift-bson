@@ -6,7 +6,7 @@ extension BSON.DecodingError: Equatable where Location: Equatable {
     /// if they are equal. Always returns `false` if (any of)
     /// the underlying ``Error`` existentials are not ``Equatable``.
     public static func == (a: Self, b: Self) -> Bool {
-        a.location == b.location && a.underlying == b.underlying
+        a.location == b.location && a.underlying ~= b.underlying
     }
 }
 extension BSON.DecodingError: TraceableError {
