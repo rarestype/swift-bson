@@ -5,7 +5,7 @@ let package: Package = .init(
     name: "swift-bson-examples",
     platforms: [.macOS(.v15), .iOS(.v18), .tvOS(.v18), .visionOS(.v2), .watchOS(.v11)],
     products: [
-        .executable(name: "bson2json", targets: ["bson2json"]),
+        .executable(name: "json2bson", targets: ["json2bson"]),
         .library(name: "BSON_JSON", targets: ["BSON_JSON"]),
     ],
     dependencies: [
@@ -17,12 +17,12 @@ let package: Package = .init(
     ],
     targets: [
         .executableTarget(
-            name: "bson2json",
+            name: "json2bson",
             dependencies: [
                 .target(name: "BSON_JSON"),
                 .product(name: "System_ArgumentParser", package: "swift-io"),
             ],
-            path: "bson2json"
+            path: "json2bson"
         ),
         .target(
             name: "BSON_JSON",
