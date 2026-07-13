@@ -1,10 +1,15 @@
-.build
-.build.ssgc
-.build.unidoc
-.ssgc
-.vscode
+/.build
+/.build.*
 
-Benchmarks/.build
+/Benchmarks/.build
+/Benchmarks/.build.*
+/Benchmarks/Package.resolved
 
-Packages/
-Package.resolved
+/Examples/.build
+/Examples/.build.*
+/Examples/Package.resolved
+
+/Packages/
+/Package.resolved
+
+/.vscode
