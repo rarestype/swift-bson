@@ -9,8 +9,6 @@
 /Examples/.build.*
 /Examples/Package.resolved
 
-/Benchmarks/.build
-
 /Packages/
 /Package.resolved
 
