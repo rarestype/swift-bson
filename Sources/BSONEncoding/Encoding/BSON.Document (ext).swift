@@ -4,10 +4,10 @@ extension BSON.Document: BSONEncodable {
     }
 }
 extension BSON.Document {
-    @inlinable public subscript<CodingKey>(_: CodingKey.Type) -> BSON.DocumentEncoder<
-        CodingKey
-    > {
-        mutating _read   { yield  self.output[as: BSON.DocumentEncoder<CodingKey>.self] }
+    @inlinable public subscript<CodingKey>(
+        _: CodingKey.Type
+    ) -> BSON.DocumentEncoder<CodingKey> {
+        mutating _read { yield self.output[as: BSON.DocumentEncoder<CodingKey>.self] }
         _modify { yield &self.output[as: BSON.DocumentEncoder<CodingKey>.self] }
     }
 }
@@ -21,8 +21,7 @@ extension BSON.Document {
 extension BSON.Document {
     @inlinable public init<Encodable>(
         encoding fields: __shared some Sequence<(key: BSON.Key, value: Encodable)>
-    )
-        where Encodable: BSONEncodable {
+    ) where Encodable: BSONEncodable {
         self.init {
             for (key, value): (BSON.Key, Encodable) in fields {
                 $0[key] = value
