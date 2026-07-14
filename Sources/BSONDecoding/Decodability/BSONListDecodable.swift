@@ -13,8 +13,7 @@ extension BSONListDecodable {
         try self.init(bson: bson.parsed)
     }
 }
-extension BSONListDecodable where Self: RangeReplaceableCollection,
-    Self.Element: BSONDecodable {
+extension BSONListDecodable where Self: RangeReplaceableCollection, Element: BSONDecodable {
     @inlinable public init(bson: consuming BSON.ListDecoder) throws {
         self.init()
         //  The explicit type `Element.self` (instead of `Element?.self`) guards against the
