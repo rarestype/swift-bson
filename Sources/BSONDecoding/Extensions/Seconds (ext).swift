@@ -1,4 +1,3 @@
 import UnixTime
 
-extension Seconds: BSONDecodable {
-}
+extension Seconds: BSONDecodable {}

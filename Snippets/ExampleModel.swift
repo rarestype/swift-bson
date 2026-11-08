@@ -46,8 +46,7 @@ struct ExampleModel: BSONDocumentEncodable, BSONDocumentDecodable {
     }
 }
 //  snippet.end
-extension ExampleModel: Equatable {
-}
+extension ExampleModel: Equatable {}
 
 do {
     //  snippet.MODEL_USAGE

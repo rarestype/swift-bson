@@ -1,2 +1,1 @@
-extension Int: BSONDecodable {
-}
+extension Int: BSONDecodable {}

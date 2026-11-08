@@ -30,7 +30,8 @@ let package: Package = .init(
                 .product(name: "Benchmark", package: "package-benchmark"),
                 .product(name: "BSON", package: "swift-bson"),
                 .product(
-                    name: "BSON", package: "bson", moduleAliases: [
+                    name: "BSON", package: "bson",
+                    moduleAliases: [
                         "BSON":
                         "MongoKittenBSON"
                     ]

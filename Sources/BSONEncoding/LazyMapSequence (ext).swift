@@ -1,2 +1,1 @@
-extension LazyMapSequence: BSONListEncodable, BSONEncodable where Element: BSONEncodable {
-}
+extension LazyMapSequence: BSONListEncodable, BSONEncodable where Element: BSONEncodable {}

@@ -13,8 +13,7 @@ extension BSON {
         }
     }
 }
-extension BSON.BinaryView: Sendable where Bytes: Sendable {
-}
+extension BSON.BinaryView: Sendable where Bytes: Sendable {}
 extension BSON.BinaryView: Equatable {
     /// Performs an exact byte-wise comparison on two binary arrays.
     /// The subtypes must match as well.

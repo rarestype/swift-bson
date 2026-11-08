@@ -1,2 +1,1 @@
-extension Array: BSONDecodable, BSONListDecodable where Element: BSONDecodable {
-}
+extension Array: BSONDecodable, BSONListDecodable where Element: BSONDecodable {}

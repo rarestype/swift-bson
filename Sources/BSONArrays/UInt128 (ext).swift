@@ -1,2 +1,1 @@
-extension UInt128: BSON.BinaryPackable {
-}
+extension UInt128: BSON.BinaryPackable {}

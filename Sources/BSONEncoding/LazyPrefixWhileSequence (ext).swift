@@ -1,3 +1,2 @@
 extension LazyPrefixWhileSequence: BSONListEncodable,
-    BSONEncodable where Element: BSONEncodable {
-}
+    BSONEncodable where Element: BSONEncodable {}

@@ -360,7 +360,8 @@ import Testing
             canonical: "1A0000000C610002000000620056E1FC72E0C917E9C471416100",
             expected: [
                 "a": .pointer(
-                    .init(from: "b"), .init(
+                    .init(from: "b"),
+                    .init(
                         0x56e1fc72, 0xe0c917e9, 0xc4_714161
                     )
                 )
@@ -371,7 +372,8 @@ import Testing
             canonical: "1B0000000C610003000000C3A90056E1FC72E0C917E9C471416100",
             expected: [
                 "a": .pointer(
-                    .init(from: "é"), .init(
+                    .init(from: "é"),
+                    .init(
                         0x56e1fc72, 0xe0c917e9, 0xc4_714161
                     )
                 )
