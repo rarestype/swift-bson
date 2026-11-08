@@ -7,5 +7,4 @@ extension BSON {
         case undefined(Key)
     }
 }
-extension BSON.DocumentKeyError: Equatable where Key: Equatable {
-}
+extension BSON.DocumentKeyError: Equatable where Key: Equatable {}

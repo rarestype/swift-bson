@@ -16,5 +16,4 @@ extension Date {
         case december
     }
 }
-extension Date.Month: BSONDecodable, BSONEncodable {
-}
+extension Date.Month: BSONDecodable, BSONEncodable {}

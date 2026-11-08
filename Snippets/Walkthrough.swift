@@ -68,11 +68,9 @@ extension ExampleModel: BSONDocumentDecodable {
     }
 }
 //  snippet.EXAMPLE_MODEL_RANK_DECODABLE
-extension ExampleModel.Rank: BSONDecodable {
-}
+extension ExampleModel.Rank: BSONDecodable {}
 //  snippet.EXAMPLE_MODEL_RANK_ENCODABLE
-extension ExampleModel.Rank: BSONEncodable {
-}
+extension ExampleModel.Rank: BSONEncodable {}
 //  snippet.EXAMPLE_MODEL_ENCODABLE
 extension ExampleModel: BSONDocumentEncodable {
     func encode(to bson: inout BSON.DocumentEncoder<CodingKey>) {

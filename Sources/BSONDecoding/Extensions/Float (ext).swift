@@ -1,2 +1,1 @@
-extension Float: BSONDecodable {
-}
+extension Float: BSONDecodable {}

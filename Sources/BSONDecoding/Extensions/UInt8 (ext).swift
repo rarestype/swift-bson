@@ -1,2 +1,1 @@
-extension UInt8: BSONDecodable {
-}
+extension UInt8: BSONDecodable {}

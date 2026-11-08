@@ -132,8 +132,7 @@ func decodeWithThisLibrary(_ bson: BSON.List) throws -> [DocumentModel] {
     Benchmark.defaultConfiguration.maxDuration = .seconds(3)
     Benchmark.defaultConfiguration.metrics = [.throughput, .wallClock] + BenchmarkMetric.arc
 
-    Benchmark.init("Encode BSON with MongoKitten Default") {
-        (benchmark: Benchmark) in
+    Benchmark.init("Encode BSON with MongoKitten Default") { (benchmark: Benchmark) in
 
         let models: [DocumentModel] = generateRandomDocumentModels(100)
 
@@ -143,8 +142,7 @@ func decodeWithThisLibrary(_ bson: BSON.List) throws -> [DocumentModel] {
             blackHole(encodeWithMongoKittenDefault(models))
         }
     }
-    Benchmark.init("Encode BSON with This Library") {
-        (benchmark: Benchmark) in
+    Benchmark.init("Encode BSON with This Library") { (benchmark: Benchmark) in
 
         let models: [DocumentModel] = generateRandomDocumentModels(100)
 
@@ -155,8 +153,7 @@ func decodeWithThisLibrary(_ bson: BSON.List) throws -> [DocumentModel] {
         }
     }
 
-    Benchmark.init("Decode BSON with MongoKitten Default") {
-        (benchmark: Benchmark) in
+    Benchmark.init("Decode BSON with MongoKitten Default") { (benchmark: Benchmark) in
 
         let models: [DocumentModel] = generateRandomDocumentModels(100)
         let bson: Document = encodeWithMongoKittenDefault(models)
@@ -168,8 +165,7 @@ func decodeWithThisLibrary(_ bson: BSON.List) throws -> [DocumentModel] {
         }
     }
 
-    Benchmark.init("Decode BSON with This Library") {
-        (benchmark: Benchmark) in
+    Benchmark.init("Decode BSON with This Library") { (benchmark: Benchmark) in
 
         let models: [DocumentModel] = generateRandomDocumentModels(100)
         let bson: BSON.List = encodeWithThisLibrary(models)

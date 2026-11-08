@@ -51,5 +51,4 @@ extension Date.Year: CustomStringConvertible {
         self.rawValue.description
     }
 }
-extension Date.Year: BSONDecodable, BSONEncodable {
-}
+extension Date.Year: BSONDecodable, BSONEncodable {}

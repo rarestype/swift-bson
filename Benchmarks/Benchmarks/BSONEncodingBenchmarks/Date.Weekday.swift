@@ -11,5 +11,4 @@ extension Date {
         case sunday
     }
 }
-extension Date.Weekday: BSONDecodable, BSONEncodable {
-}
+extension Date.Weekday: BSONDecodable, BSONEncodable {}

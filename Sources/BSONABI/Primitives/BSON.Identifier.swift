@@ -69,8 +69,7 @@ extension BSON.Identifier: ExpressibleByIntegerLiteral {
             "BSON identifier literal overflows UInt96 (bit width: \(integerLiteral.bitWidth))"
         )
 
-        self.init {
-            (bytes: UnsafeMutableRawBufferPointer) in
+        self.init { (bytes: UnsafeMutableRawBufferPointer) in
 
             var byte: Int = bytes.endIndex
             var word: Int = 0

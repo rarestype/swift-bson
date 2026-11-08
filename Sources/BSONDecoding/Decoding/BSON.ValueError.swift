@@ -9,5 +9,4 @@ extension BSON {
         }
     }
 }
-extension BSON.ValueError: Equatable where Value: Equatable {
-}
+extension BSON.ValueError: Equatable where Value: Equatable {}

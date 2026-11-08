@@ -64,9 +64,12 @@ extension BSON.Document {
         var output: BSON.Output = .init(capacity: size)
         output.serialize(fields: fields)
 
-        assert(output.bytes.count == size, """
+        assert(
+            output.bytes.count == size,
+            """
             precomputed size (\(size)) does not match output size (\(output.bytes.count))
-            """)
+            """
+        )
 
         self.init(bytes: output.bytes)
     }

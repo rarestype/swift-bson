@@ -1,4 +1,3 @@
 import UnixTime
 
-extension Seconds: BSONEncodable {
-}
+extension Seconds: BSONEncodable {}
