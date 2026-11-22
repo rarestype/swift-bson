@@ -122,8 +122,9 @@ extension BSON.UnkeyedDecoder: UnkeyedDecodingContainer {
         return decoder
     }
     mutating func nestedUnkeyedContainer() throws -> any UnkeyedDecodingContainer {
-        let path: [any CodingKey] = self.codingPath +
-        CollectionOfOne<any CodingKey>.init(Index.init(intValue: self.currentIndex))
+        let path: [any CodingKey] =
+            self.codingPath +
+            CollectionOfOne<any CodingKey>.init(Index.init(intValue: self.currentIndex))
         let container: BSON.UnkeyedDecoder = try .init(
             try self.diagnose { try .init(bson: $0) },
             path: path
@@ -133,8 +134,9 @@ extension BSON.UnkeyedDecoder: UnkeyedDecodingContainer {
     mutating func nestedContainer<NestedKey>(
         keyedBy _: NestedKey.Type
     ) throws -> KeyedDecodingContainer<NestedKey> {
-        let path: [any CodingKey] = self.codingPath +
-        CollectionOfOne<any CodingKey>.init(Index.init(intValue: self.currentIndex))
+        let path: [any CodingKey] =
+            self.codingPath +
+            CollectionOfOne<any CodingKey>.init(Index.init(intValue: self.currentIndex))
         let container: BSON.KeyedDecoder<NestedKey> = try .init(
             bson: try self.diagnose { try BSON.Document.init(bson: $0) },
             path: path
