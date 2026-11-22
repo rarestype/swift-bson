@@ -138,8 +138,10 @@ extension BSON.KeyedDecoder: KeyedDecodingContainerProtocol {
     }
     public func nestedUnkeyedContainer(forKey key: Key) throws -> any UnkeyedDecodingContainer {
         let path: [any CodingKey] = self.codingPath + CollectionOfOne<any CodingKey>.init(key)
-        let container: BSON.UnkeyedDecoder =
-        try .init(try self.diagnose(key) { try .init(bson: $0) }, path: path)
+        let container: BSON.UnkeyedDecoder = try .init(
+            try self.diagnose(key) { try .init(bson: $0) },
+            path: path
+        )
         return container as any UnkeyedDecodingContainer
     }
     public func nestedContainer<NestedKey>(
