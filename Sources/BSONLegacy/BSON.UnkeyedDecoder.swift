@@ -124,8 +124,10 @@ extension BSON.UnkeyedDecoder: UnkeyedDecodingContainer {
     mutating func nestedUnkeyedContainer() throws -> any UnkeyedDecodingContainer {
         let path: [any CodingKey] = self.codingPath +
         CollectionOfOne<any CodingKey>.init(Index.init(intValue: self.currentIndex))
-        let container: BSON.UnkeyedDecoder =
-        try .init(try self.diagnose { try .init(bson: $0) }, path: path)
+        let container: BSON.UnkeyedDecoder = try .init(
+            try self.diagnose { try .init(bson: $0) },
+            path: path
+        )
         return container as any UnkeyedDecodingContainer
     }
     mutating func nestedContainer<NestedKey>(
